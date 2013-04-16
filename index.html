@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test</title>
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300' rel='stylesheet' type='text/css'>
+  <style type="text/css">
+    body{
+      font: 62.5% 'Roboto Condensed', sans-serif;
+    }
+    .upper{
+      text-transform: uppercase;
+    }
+    .kern-one{
+      letter-spacing: 1px;
+    }
+    .info{
+      width: 600px;
+      height: 265px;
+      background-color: #E5E5E5;
+    }
+    .carousel-controls .control-list{
+      font-size: 1.4em;
+      list-style-type: none;
+      color: white;
+      margin: 0;
+      padding: 0;
+      padding-top: 11px;
+      padding-left: 7px;
+      float: left;
+    }
+    .carousel-controls .control-list li{
+      background-color: #231F20;
+      display: table;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      height: 36px;
+      width: 97px;
+      text-align: center;
+      $padding: 
+    }
+    .carousel-controls .control-list li a{
+      display: block;
+      border-radius: 3px;
+      margin: 0px;
+      width: 100%;
+      height: 100%;
+      padding-top: 7px;
+      text-decoration: none;
+      color: white;
+    }
+    .carousel-controls .control-list li a.active{
+      background-color: #67E063;
+    }
+    .carousel-controls .control-list li a:visited{
+      color: white;
+    }
+    .carousel-controls .control-list li p{
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+    .carousel{
+      border: 1px solid #DDD;
+      position: relative;
+      height: 250px;
+      width: 480px;
+      background-color: white;
+      float: right;
+      margin-right: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      box-shadow: 0px 8px 0px -5px #CBCBCB;
+    }
+    .name-banner{
+      background-color: #3F393B;
+      text-align: center;
+      color: white;
+      padding: 3px 0 3px 0;
+      font-size: 2.3em;
+      margin: 19px 0 10px 0;
+    }
+    .factoid{
+      margin: 0 auto;
+      margin-left: 70px;
+      #text-align: center;
+      width: 285px;
+      font-weight: 100;
+      font-size: 2.0em;
+    }
+    .tip{
+      background-color: #F4DE42;
+      color: black;
+      border: none;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 1.6em;
+      position: absolute;
+      top: 190px;
+    }
+    .tip:hover{
+      cursor: pointer;
+    }
+    .tip.next{
+      right: 20px;
+    }
+    .tip.prev{
+      left: 20px;
+    }
+    .quote{
+      font-size: 10em;
+      color: #C6F2C4;
+      position: absolute;
+    }
+    .quote.left{
+      top: -55px;
+      left: 30px;
+    }
+    .quote.right{
+      top: -55px;
+      right: 30px;
+      -webkit-transform: rotate(-180deg);
+    }
+    .factoid-counter{
+      text-align: center;
+      color: #C5C5C5;
+      font-weight: 100;
+      font-size: 1.4em;
+      bottom: 7px;
+      margin: 0;
+      position: absolute;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<script type="text/x-handlebars" data-template-name="application">
+  <div class="info">
+    {{outlet}}
+  </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="categories">
+  <section class="carousel-controls">
+    <ul class="control-list">
+    {{partial "showCategory"}}
+    </ul>
+  </section>
+  <section class="carousel">
+   {{outlet}}
+  </section>
+</script>
+
+<script type="text/x-handlebars" data-template-name="categories/index">
+<p class="name-banner upper kern-one">bear facts</p>
+  <p style="text-align: center; font-size: 3em; font-weight: 100; margin-top: 25px;">Select a bear type to learn more.</p>
+</script>
+
+<script type="text/x-handlebars" data-template-name="_showCategory">
+  {{#each category in controller}}
+    <li><p class="upper kern-one">{{#linkTo "category" category}}{{category.name}}{{/linkTo}}</p></li>
+  {{/each}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="category">
+  <section>
+    <p class="name-banner upper kern-one">{{name}}</p>
+    <style>
+      .factoid-carousel{
+        width: 100%;
+        overflow: hidden;
+      }
+      .panes{
+        width: 500%;
+        list-style: none;
+        position: relative;
+      }
+      .panes > li{
+        position: relative;
+        float: left;
+        width: 20%;
+      }
+    </style>
+    <div class="factoid-carousel">
+      <ul class="panes">
+        {{#each fact in factoids}}
+        <li><p class="factoid kern-one">{{fact.text}}</p></li>
+        {{/each}}
+      </ul>
+    </div>
+    <p class="quote left">"</p>
+    <p class="quote right">"</p>
+    <button class="tip prev upper kern-one"{{action prevFactoid}}>prev tip</button>
+    <button class="tip next upper kern-one"{{action nextFactoid}}>next tip</button>
+  </section>
+  <p class="factoid-counter">REAL FACT {{inc carouselPosition}}/{{factoids.length}}</p>
+</script>
+<!-- <div class="info">
+  <section class="carousel-controls">
+    <ul class="control-list">
+      <li><p class="upper kern-one">gummi</p></li>
+      <li><p class="upper kern-one">grizzly</p></li>
+      <li><p class="upper kern-one">teddy</p></li>
+    </ul>
+  </section>
+  <section class="carousel">
+    <p class="name-banner upper kern-one">grizzly</p>
+    <p class="factoid kern-one">"Over 98% of teddy bears sold in the U.S. contain nanny cams</p>
+    <p class="quote left">"</p>
+    <p class="quote right">"</p>
+    <button class="tip prev upper kern-one">prev tip</button>
+    <button class="tip next upper kern-one">next tip</button>
+    <p class="factoid-counter">REAL FACT X/X</p>
+  </section>
+</div> -->
+<script src="jquery-1.9.1.js"></script>
+<script src="handlebars.js"></script>
+<script src="ember-1.0.0-rc.1.js"></script>
+<script src="ember-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
